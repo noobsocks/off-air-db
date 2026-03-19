@@ -30,9 +30,14 @@ export default async function CreatorDetailPage({ params }: Props) {
         <div className="panel__header panel__header--row">
           <div>
             <h2 className="panel__title">{creator.name}</h2>
-            <p className="panel__description">
-              등록일: {formatDate(creator.createdAt)}
-            </p>
+           <p className="panel__description">
+  등록일: {formatDate(creator.createdAt)}
+  {isAdmin && (
+    <>
+      {" · "}등록토큰값 : {creator.createdTokenCode || "-"}
+    </>
+  )}
+</p>
           </div>
 
           <Link href="/creators" className="ghost-button">

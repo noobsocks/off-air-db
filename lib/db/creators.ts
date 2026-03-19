@@ -16,6 +16,7 @@ type DbCreatorRow = {
   name: string;
   name_normalized: string;
   created_at: string;
+  created_token_code: string | null;
   creator_platform_accounts: DbAccountRow[] | null;
 };
 
@@ -25,6 +26,7 @@ export type CreateCreatorInput = {
   tiktokUrl?: string;
   instagramUrl?: string;
   xiaohongshuUrl?: string;
+  createdTokenCode?: string;
 };
 
 function mapCreator(row: DbCreatorRow): Creator {
@@ -33,6 +35,7 @@ function mapCreator(row: DbCreatorRow): Creator {
     name: row.name,
     nameNormalized: row.name_normalized,
     createdAt: row.created_at,
+    createdTokenCode: row.created_token_code,
     accounts: (row.creator_platform_accounts ?? []).map((account) => ({
       platform: account.platform,
       url: account.url_original,
@@ -60,19 +63,20 @@ function buildAccounts(input: CreateCreatorInput) {
 export async function getAllCreators() {
   const { data, error } = await supabaseAdmin
     .from("creators")
-    .select(
-      `
-      id,
-      name,
-      name_normalized,
-      created_at,
-      creator_platform_accounts (
-        platform,
-        url_original,
-        url_normalized
-      )
-    `
-    )
+.select(
+  `
+  id,
+  name,
+  name_normalized,
+  created_at,
+  created_token_code,
+  creator_platform_accounts (
+    platform,
+    url_original,
+    url_normalized
+  )
+`
+)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -169,8 +173,9 @@ export async function createCreator(input: CreateCreatorInput) {
   const { data: creatorRow, error: creatorError } = await supabaseAdmin
     .from("creators")
     .insert({
-      name: trimmedName,
-      name_normalized: normalizeText(trimmedName),
+  name: trimmedName,
+  name_normalized: normalizeText(trimmedName),
+  created_token_code: input.createdTokenCode ?? null,
     })
     .select("id")
     .single();

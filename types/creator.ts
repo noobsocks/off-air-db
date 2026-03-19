@@ -11,4 +11,5 @@ export type Creator = {
   nameNormalized: string;
   accounts: CreatorPlatformAccount[];
   createdAt: string;
+  creatredTokenCode?: string | null;
 };

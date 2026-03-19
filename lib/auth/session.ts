@@ -147,3 +147,42 @@ export async function deleteCurrentSession() {
     .delete()
     .eq("session_token", sessionToken);
 }
+
+export async function getCurrentAccessTokenCode(): Promise<string | null> {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
+
+  if (!sessionToken) {
+    return null;
+  }
+
+  const { data: sessionRow, error: sessionError } = await supabaseAdmin
+    .from("auth_sessions")
+    .select("access_token_id, expires_at")
+    .eq("session_token", sessionToken)
+    .single();
+
+  if (sessionError || !sessionRow) {
+    return null;
+  }
+
+  if (new Date(sessionRow.expires_at).getTime() <= Date.now()) {
+    return null;
+  }
+
+  if (!sessionRow.access_token_id) {
+    return null;
+  }
+
+  const { data: tokenRow, error: tokenError } = await supabaseAdmin
+    .from("access_tokens")
+    .select("code")
+    .eq("id", sessionRow.access_token_id)
+    .single();
+
+  if (tokenError || !tokenRow) {
+    return null;
+  }
+
+  return tokenRow.code ?? null;
+}

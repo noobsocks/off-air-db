@@ -217,7 +217,7 @@ export default function CreatorForm() {
         </button>
 
         <button type="submit" className="primary-button" disabled={isLoading}>
-          {isLoading ? "저장 중..." : "Supabase에 저장"}
+          {isLoading ? "저장 중..." : "저장하기"}
         </button>
 
         <Link href="/creators" className="ghost-button">
@@ -240,7 +240,6 @@ export default function CreatorForm() {
                 <div className="result-card__top">
                   <div>
                     <h3 className="result-card__title">{creator.name}</h3>
-                    <p className="result-card__meta">ID: {creator.id}</p>
                   </div>
 
                   <Link href={`/creators/${creator.id}`} className="text-link">

@@ -102,7 +102,6 @@ export default function DuplicateCheckPanel() {
                   <div className="result-card__top">
                     <div>
                       <h3 className="result-card__title">{creator.name}</h3>
-                      <p className="result-card__meta">ID: {creator.id}</p>
                     </div>
 
                     <Link href={`/creators/${creator.id}`} className="text-link">

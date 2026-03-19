@@ -8,7 +8,11 @@ export function checkDuplicate(creators: Creator[], name?: string, url?: string)
 
   return creators.filter((creator) => {
     const sameName =
-      normalizedName.length > 0 && creator.nameNormalized === normalizedName;
+      normalizedName.length > 0 &&
+      (
+        normalizeText(creator.nameNormalized || "") === normalizedName ||
+        normalizeText(creator.name || "") === normalizedName
+      );
 
     const sameUrl =
       normalizedUrl.length > 0 &&

@@ -13,11 +13,21 @@ export default async function ImportPage() {
   return (
     <div className="page-stack">
       <section className="panel">
-        <div className="panel__header">
-          <h2 className="panel__title">크리에이터 Import</h2>
-          <p className="panel__description">
-            CSV 또는 XLSX 파일을 업로드해 신규 / 중복 / 오류 데이터를 미리 확인하세요.
-          </p>
+        <div className="panel__header panel__header--row">
+          <div>
+            <h2 className="panel__title">크리에이터 Import</h2>
+            <p className="panel__description">
+              CSV 또는 XLSX 파일을 업로드해 신규 / 중복 / 오류 데이터를 미리 확인하세요.
+            </p>
+          </div>
+
+          <a
+            href="/templates/OFF-AIR_DB_SHEET.xlsx"
+            download
+            className="secondary-button"
+          >
+            템플릿 다운로드
+          </a>
         </div>
 
         <div className="panel__body">

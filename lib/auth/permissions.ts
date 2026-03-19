@@ -25,3 +25,7 @@ export function canDelete(role: AppRole) {
 export function canCopy(role: AppRole) {
   return role === "admin";
 }
+
+export function canManageTokens(role: AppRole) {
+  return role === "admin";
+}

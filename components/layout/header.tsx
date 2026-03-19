@@ -11,8 +11,17 @@ function getPageTitle(pathname: string) {
   if (pathname.startsWith("/creators")) return "Creators";
   if (pathname.startsWith("/duplicate-check")) return "Duplicate Check";
   if (pathname.startsWith("/import")) return "Import";
-  if (pathname.startsWith("/access")) return "Login";
-  return "Creator DB";
+  if (pathname.startsWith("/admin/access-tokens")) return "Token Manager";
+  if (pathname.startsWith("/access")) return "로그인";
+  return "OFF-AIR DB";
+}
+
+function getPageDescription(pathname: string) {
+  if (pathname.startsWith("/dashboard")) {
+    return "크리에이터 데이터 관리용 내부 어드민입니다. OFF-AIR DB 대시보드 페이지입니다.";
+  }
+
+  return "크리에이터 데이터 관리용 내부 어드민입니다.";
 }
 
 function getRoleLabel(role: AppRole) {
@@ -33,9 +42,7 @@ export default function Header({ role }: Props) {
       <div className="header__inner">
         <div>
           <h1 className="header__title">{getPageTitle(pathname)}</h1>
-          <p className="header__description">
-            OFF-AIR DB 대시보드 페이지입니다.
-          </p>
+          <p className="header__description">{getPageDescription(pathname)}</p>
         </div>
 
         <div className="header__actions">
@@ -45,7 +52,7 @@ export default function Header({ role }: Props) {
 
           {role === "viewer" ? (
             <Link href="/access" className="ghost-button">
-              권한 인증
+              로그인
             </Link>
           ) : (
             <LogoutButton />

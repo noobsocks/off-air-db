@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { AppRole } from "@/types/auth";
-import { canUpload } from "@/lib/auth/permissions";
+import { canManageTokens, canUpload } from "@/lib/auth/permissions";
 
 type Props = {
   role: AppRole;
@@ -17,7 +17,8 @@ export default function Sidebar({ role }: Props) {
     { href: "/creators", label: "Creators", visible: true },
     { href: "/duplicate-check", label: "Duplicate Check", visible: true },
     { href: "/import", label: "Import", visible: canUpload(role) },
-    { href: "/access", label: "Login", visible: role === "viewer" },
+    { href: "/admin/access-tokens", label: "Token Manager", visible: canManageTokens(role) },
+    { href: "/access", label: "Access", visible: role === "viewer" },
   ].filter((item) => item.visible);
 
   return (
@@ -34,7 +35,7 @@ export default function Sidebar({ role }: Props) {
           const isActive =
             item.href === "/creators"
               ? pathname.startsWith("/creators")
-              : pathname === item.href;
+              : pathname.startsWith(item.href);
 
           return (
             <Link

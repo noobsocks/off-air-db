@@ -920,3 +920,27 @@ select {
   display: block;
   border-radius: 10px;
 }
+
+.token-created-box {
+  margin-top: 12px;
+  border: 1px solid #93c5fd;
+  background: #eff6ff;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.token-created-box__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.token-created-box__code {
+  margin: 10px 0 0;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: #111827;
+}

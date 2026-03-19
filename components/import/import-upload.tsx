@@ -245,7 +245,7 @@ export default function ImportUpload() {
             className="primary-button"
             disabled={isSaving}
           >
-            {isSaving ? "저장 중..." : `신규 ${newRows.length}건 Supabase 저장`}
+            {isSaving ? "저장 중..." : `신규 ${newRows.length}건 저장`}
           </button>
         </div>
       )}

@@ -20,6 +20,21 @@ type AccessTokenRow = {
   expires_at: string | null;
 };
 
+type VerifyAccessCodeSuccess = {
+  ok: true;
+  accessTokenId: string;
+  role: AppRole;
+};
+
+type VerifyAccessCodeFailure = {
+  ok: false;
+  message: string;
+};
+
+type VerifyAccessCodeResult =
+  | VerifyAccessCodeSuccess
+  | VerifyAccessCodeFailure;
+
 export async function getCurrentRole(): Promise<AppRole> {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value;
@@ -47,7 +62,9 @@ export async function getCurrentRole(): Promise<AppRole> {
   return session.role;
 }
 
-export async function verifyAccessCode(code: string) {
+export async function verifyAccessCode(
+  code: string
+): Promise<VerifyAccessCodeResult> {
   const trimmed = code.trim();
 
   if (!/^\d{6}$/.test(trimmed)) {

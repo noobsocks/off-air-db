@@ -20,10 +20,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const session = await createRoleSession(
-      verified.accessTokenId,
-      verified.role
-    );
+    const accessTokenId =
+      "accessTokenId" in verified ? verified.accessTokenId : undefined;
+    const role = "role" in verified ? verified.role : undefined;
+
+    if (!accessTokenId || !role) {
+      return NextResponse.json(
+        { ok: false, message: "토큰 검증 결과가 올바르지 않습니다." },
+        { status: 400 }
+      );
+    }
+
+    const session = await createRoleSession(accessTokenId, role);
 
     const cookieStore = await cookies();
     cookieStore.set(SESSION_COOKIE_NAME, session.sessionToken, {

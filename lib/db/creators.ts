@@ -17,7 +17,7 @@ type DbCreatorRow = {
   name_normalized: string;
   created_at: string;
   created_token_code: string | null;
-  creator_platform_accounts: DbAccountRow[] | null;
+  creator_platform: DbAccountRow[] | null;
 };
 
 export type CreateCreatorInput = {
@@ -36,7 +36,7 @@ function mapCreator(row: DbCreatorRow): Creator {
     nameNormalized: row.name_normalized,
     createdAt: row.created_at,
     createdTokenCode: row.created_token_code,
-    accounts: (row.creator_platform_accounts ?? []).map((account) => ({
+    accounts: (row.creator_platform ?? []).map((account) => ({
       platform: account.platform,
       url: account.url_original,
     })),
@@ -70,7 +70,7 @@ export async function getAllCreators() {
   name_normalized,
   created_at,
   created_token_code,
-  creator_platform_accounts (
+  creator_platform (
     platform,
     url_original,
     url_normalized
@@ -95,7 +95,7 @@ export async function getCreatorById(id: string) {
       name,
       name_normalized,
       created_at,
-      creator_platform_accounts (
+      creator_platform (
         platform,
         url_original,
         url_normalized
@@ -196,7 +196,7 @@ export async function createCreator(input: CreateCreatorInput) {
   }));
 
   const { error: accountError } = await supabaseAdmin
-    .from("creator_platform_accounts")
+    .from("creator_platform")
     .insert(accountRows);
 
   if (accountError) {
